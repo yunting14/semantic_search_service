@@ -11,6 +11,7 @@ import nltk
 
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
+from nltk.tokenize import MWETokenizer
 
 lemmatizer = WordNetLemmatizer() # default noun, "v" for verbs, "a" for adjectives, "r" for adverbs, "s" for satellite adjectives
 stop_words = stopwords.words('english')
@@ -68,6 +69,7 @@ def preprocess_documents_parallel(docs:list[str]):
         executor.map(preprocess_single_document_parallel, docs) # returns a list of result. no returns, can use submit() too
     end = time.time()
     print(f'Parallel processing ended. It took {end-start} seconds')
+    return cleaned_docs
 
 # preprocess_documents_parallel(documents)
 

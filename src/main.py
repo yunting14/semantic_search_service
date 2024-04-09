@@ -2,9 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 import pickle
-import text_processing
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
+
+from preprocessor.index import preprocess_documents_parallel
 
 app = FastAPI()
 
@@ -12,7 +13,7 @@ tfidf_vectorizer = pickle.load(open('vectorizer.pkl', 'rb'))
 fv_docs = pickle.load(open('feature_vector_docs.pkl', 'rb'))
 
 def get_feature_vector(query):
-    query_clean = text_processing.preprocessing([query])
+    query_clean = preprocess_documents_parallel([query])
     return tfidf_vectorizer.transform(query_clean).toarray()
 
 def get_cosine_similarity_df(fv_y, fv_x):
